@@ -2,16 +2,21 @@ package main.Java.me.ville.minitentit;
 
 public class minitentti3 {
     public static void main(String[] args) {
-        System.out.println(convertTime("12:45 AM"));
-
+        printArray(new int[]{1,2,3});
+        System.out.println(average(new double[]{1,2,3,4}));
+        System.out.println(getMinimum(new int[]{1,2,3}));
+        System.out.println(checkParenthesis("((())())"));
+        System.out.println(getSubstring("11:33"));
+        System.out.println(convertTime("01:34 PM"));
+        System.out.println(isValidTime("13:45"));
     }
     static double average(double[] arr) {
         double avrg = 0;
-        if(arr.length <= 0){
+        if(arr.length == 0){
             return avrg;
         }
-        for(int i = 0; i < arr.length; i++){
-            avrg = avrg + arr[i];
+        for (double v : arr) {
+            avrg = avrg + v;
         }
         avrg = avrg / arr.length;
         return avrg;
@@ -26,8 +31,8 @@ public class minitentti3 {
         return min;
     }
     static void printArray(int[] arr){
-        for(int i = 0; i < arr.length; i++){
-            System.out.println(arr[i]);
+        for (int j : arr) {
+            System.out.println(j);
         }
     }
     static boolean checkParenthesis(String s){
@@ -41,8 +46,7 @@ public class minitentti3 {
                 if (s.charAt(i) == close)   count --;
                 }
         }
-        if(count == 0) return true;
-        else return false;
+        return count == 0;
     }
     static String getSubstring(String s){
         return s.split(":")[0];
@@ -55,8 +59,7 @@ public class minitentti3 {
         hours = Integer.parseInt(s.split(":")[0]);
         minutes = Integer.parseInt(s.split(":")[1].split(" ")[0]);
 
-        if (s.charAt(6) == 'P')      PM = true;
-        else PM = false;
+        PM = s.charAt(6) == 'P';
 
         if (PM) {
             hours = hours + 12;
