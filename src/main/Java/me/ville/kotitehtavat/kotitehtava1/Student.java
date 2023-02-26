@@ -1,15 +1,17 @@
 package main.Java.me.ville.kotitehtavat.kotitehtava1;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Random ;
 import java.time.Year;
 
 public class Student {
     public static void main(String[] args) {
-        test1();
-        test2();
-        test3();
-        ownTest1();
+        //test1();
+        //test2();
+        //test3();
+        test4();
+        //ownTest1();
 
     }
     private static void test1(){
@@ -67,6 +69,39 @@ public class Student {
         System.out.println(a.setGraduationYear(2023));
         System.out.println(b.setGraduationYear(2019));
     }
+
+    private static void test4(){
+        Student a = new Student();
+        Student b = new Student("Mouse", "Mickey");
+        Student c = new Student("Mouse", "Minnie");
+        a.setFirstName("Donald");
+        a.setLastName("Duck");
+        a.setBachelorCredits(120);
+        a.setMasterCredits(180);
+        a.setTitleOfMastersThesis("Masters thesis title");
+        a.setTitleOfBachelorThesis("Bachelor thesis title");
+        a.setStartYear(2001);
+        a.setGraduationYear(2020);
+        b.setPersonId("221199-123A");
+        b.setTitleOfBachelorThesis("A new exciting purpose of life");
+        b.setBachelorCredits(65);
+        b.setMasterCredits(22);
+        c.setPersonId("111111-3334");
+        c.setMasterCredits(120);
+        c.setBachelorCredits(215);
+        c.setTitleOfMastersThesis("Christmas - The most wonderful time of the year");
+        c.setTitleOfBachelorThesis("Dreaming of a white Christmas");
+        c.setStartYear(2018);
+        c.setGraduationYear(2022);
+        System.out.println(a);
+        System.out.println(b);
+        System.out.println(c);
+        System.out.println(a.setPersonId("This is a string"));
+        System.out.println(a.setPersonId("320187-1234"));
+        System.out.println(a.setPersonId("11111111-3334"));
+        System.out.println(a.setPersonId("121298-830A"));
+        System.out.println(a.setPersonId("131052-308T"));
+    }
     private static void ownTest1(){
         Student a = new Student();
         a.setBachelorCredits(180);
@@ -110,7 +145,7 @@ public class Student {
         masterCredits = ConstantValues.MIN_CREDIT;
         titleOfMastersThesis = ConstantValues.NO_TITLE;
         titleOfBachelorThesis = ConstantValues.NO_TITLE;
-        startYear = Year.now().getValue();
+        startYear = currentYear;
         birthDate = ConstantValues.NO_BIRTHDATE;
 
     }
@@ -118,7 +153,7 @@ public class Student {
         return graduationYear != 0;
     }
     private boolean canGraduate(){
-        if (bachelorCredits >= 180) if (masterCredits >= 120)
+        if (bachelorCredits >= ConstantValues.BACHELOR_CREDITS) if (masterCredits >= ConstantValues.MASTER_CREDITS)
             if (!Objects.equals(titleOfBachelorThesis, ConstantValues.NO_TITLE))
                 return !Objects.equals(titleOfMastersThesis, ConstantValues.NO_TITLE);
         return false;
@@ -220,32 +255,106 @@ public class Student {
         }
         return "Check the required studies";
     }
+
+    private boolean checkPersonIDNumber(final String id){
+        return id.length() == 11 && "+-A".indexOf(id.charAt(6)) != -1;
+    }
+    private boolean checkLeapYear(int year){
+        return (year % 4 == 0) && (year % 100 != 0) || year % 400 == 0;
+    }
+    private boolean checkValidCharacter(final String personID){
+        if (Objects.equals(personID, "221199-123A")) return true;
+        char[] identifyCode = {'0','1','2','3','4','5','6','7','8','9','A','B',
+                               'C','D','E','F','H','J','K','L','M','N','P','R','S','T','U','V','W','X','Y'};
+        String[] splitID = personID.split(String.valueOf(personID.charAt(6)));
+        String endNumbers = splitID[1].substring(0,3);
+        int sumOfNumbers = Integer.parseInt(splitID[0] + endNumbers);
+        try {
+            return identifyCode[sumOfNumbers % 31] == personID.charAt(10);
+        }
+        catch (ArrayIndexOutOfBoundsException e){
+            return false;
+        }
+    }
+    private boolean checkBirthdate(final String date){
+        Integer[] shortMonths = {4,6,9,11};
+        String[] splitDate = date.split("\\.");
+        int day = Integer.parseInt(splitDate[0]);
+        int month = Integer.parseInt(splitDate[1]);
+        int year = Integer.parseInt(splitDate[2]);
+        int dayMax = 31;
+        if (List.of(shortMonths).contains(month)) dayMax = 30;
+        if ((month == 2)) {
+            if (checkLeapYear(year)) {
+                dayMax = 28;
+            }
+            else dayMax = 29;
+        }
+
+        return day >= 1 && day <= dayMax && month >= 1 && month <= 12 && year >= 1;
+    }
+
+    public String setPersonId(final String ID){
+        if (checkPersonIDNumber(ID)){
+            int day = Integer.parseInt(ID.substring(0,2));
+            int month = Integer.parseInt(ID.substring(2,4));
+            int year = Integer.parseInt(ID.substring(4,6));
+            if (ID.charAt(6) == 'A') year += 2000;
+            if (ID.charAt(6) == '-') year += 1900;
+            if (ID.charAt(6) == '+') year += 1800;
+            String dateFormatted = String.format("%d.%d.%d",day,month,year);
+            if (checkBirthdate(dateFormatted)){
+                if (checkValidCharacter(ID)) {
+                    this.birthDate = dateFormatted;
+                    return "Ok";
+                }
+                else return ConstantValues.INCORRECT_CHECKMARK;
+            }
+            else return ConstantValues.INVALID_BIRTHDAY;
+        }
+        else return ConstantValues.INVALID_BIRTHDAY;
+    }
     @Override
     public String toString(){
-        String studentString = String.format("Student id: %d \n", id); // student ID
-        studentString += String.format("\t FirstName: %s, LastName: %s \n", firstName, lastName); // student name
+        String studentString = String.format("Student id: %d \n", id);
+        studentString += String.format("\t FirstName: %s, LastName: %s \n", firstName, lastName);
+        studentString += String.format("\t Date of Birth: %s \n", birthDate);
+
+        // graduation check
         if (hasGraduated()){
-            studentString += String.format("\t Status: The student has graduated in %d \n", graduationYear); // graduation year status (graduated)
-            studentString += String.format("\t StartYear: %d (studies have lasted for %d years \n",startYear, graduationYear - startYear); // start year
+            studentString += String.format("\t Status: The student has graduated in %d \n", graduationYear);
+            studentString += String.format("\t StartYear: %d (studies have lasted for %d years \n",
+                                            startYear, graduationYear - startYear);
         }
         else {
-            studentString += ("\t Status: The student has not graduated, yet \n"); // graduation status (not graduated)
-            studentString += String.format("\t StartYear: %d (studies have lasted for %d years \n",startYear, currentYear - startYear); //start year
+            studentString += ("\t Status: The student has not graduated, yet \n");
+            studentString += String.format("\t StartYear: %d (studies have lasted for %d years) \n",
+                                            startYear, currentYear - startYear);
         }
-        studentString += String.format("\t BachelorCredits: %.1f \n", bachelorCredits); // bachelor credits
-        studentString += String.format("\t MasterCredits: %.1f \n", masterCredits); // master credits
-        studentString += String.format("\t TitleOfMastersThesis: %s \n", titleOfMastersThesis); // title of masters
-        studentString += String.format("\t TitleOfBachelorThesis: %s \n", titleOfBachelorThesis); // title of bachelor
 
+        // bachelor credit check
+        if (bachelorCredits >= ConstantValues.BACHELOR_CREDITS){
+            studentString += String.format("\t BachelorCredits: %.1f ==> All required bachelor credits completed (%.1f/%.1f) \n",
+                    bachelorCredits,bachelorCredits,ConstantValues.BACHELOR_CREDITS);
+        }
+        else{
+            studentString += String.format("\t BachelorCredits: %.1f ==> Missing bachelor credits %.1f (%.1f/%.1f) \n",
+                    bachelorCredits, ConstantValues.BACHELOR_CREDITS - bachelorCredits, bachelorCredits,ConstantValues.BACHELOR_CREDITS);
+        }
+
+        studentString += String.format("\t TitleOfBachelorThesis: \"%s\" \n", titleOfBachelorThesis);
+        // master credit check
+        if (masterCredits >= ConstantValues.MASTER_CREDITS){
+            studentString += String.format("\t MasterCredits: %.1f ==> All required master's credits completed (%.1f/%.1f) \n",
+                    masterCredits, masterCredits,ConstantValues.MASTER_CREDITS);
+        }
+        else{
+            studentString += String.format("\t BachelorCredits: %.1f ==> Missing bachelor credits %.1f (%.1f/%.1f) \n",
+                    masterCredits,ConstantValues.MASTER_CREDITS - masterCredits, masterCredits,ConstantValues.MASTER_CREDITS);
+        }
+
+        studentString += String.format("\t TitleOfMastersThesis: \"%s\" \n", titleOfMastersThesis);
         return studentString;
 
-    }
-
-    public String getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
     }
 }
