@@ -1,5 +1,6 @@
 package main.Java.me.ville.kotitehtavat.kotitehtava1;
 
+import java.util.Objects;
 import java.util.Random ;
 import java.time.Year;
 
@@ -25,8 +26,8 @@ public class Student {
         b.setBachelorCredits(5);
         b.setId(4);
         b.setTitleOfBachelorThesis(null);
-        System.out.println(a.toString());
-        System.out.println(b.toString());
+        System.out.println(a);
+        System.out.println(b);
     }
     private static void test2(){
         Student a = new Student();
@@ -40,8 +41,8 @@ public class Student {
         a.setTitleOfBachelorThesis("Bachelor thesis title");
         a.setStartYear(2001);
         a.setGraduationYear(2020);
-        System.out.println(a.toString());
-        System.out.println(b.toString());
+        System.out.println(a);
+        System.out.println(b);
     }
     private static void test3(){
         Student a = new Student();
@@ -61,8 +62,8 @@ public class Student {
         b.setTitleOfBachelorThesis("How to survive a bachelors thesis");
         b.setTitleOfMastersThesis("Happy ending");
         b.setId(101);
-        System.out.println(a.toString());
-        System.out.println(b.toString());
+        System.out.println(a);
+        System.out.println(b);
         System.out.println(a.setGraduationYear(2023));
         System.out.println(b.setGraduationYear(2019));
     }
@@ -73,7 +74,7 @@ public class Student {
         a.setTitleOfMastersThesis("Masters thesis title");
         a.setTitleOfBachelorThesis("Bachelor thesis title");
         System.out.println(a.setGraduationYear(2023));
-        System.out.println(a.toString());
+        System.out.println(a);
 
     }
     private String firstName;
@@ -86,7 +87,7 @@ public class Student {
     private int startYear;
     private int graduationYear;
     private String birthDate;
-    private int currentYear = Year.now().getValue();
+    private final int currentYear = Year.now().getValue();
 
     public Student(){
         firstName = ConstantValues.NO_NAME;
@@ -114,12 +115,13 @@ public class Student {
 
     }
     public boolean hasGraduated(){
-            if (graduationYear == 0) return false;
-            else return true;
+        return graduationYear != 0;
     }
     private boolean canGraduate(){
-        if (((bachelorCredits >= 180) && (masterCredits >= 120)) && (titleOfBachelorThesis != ConstantValues.NO_TITLE && titleOfMastersThesis != ConstantValues.NO_TITLE)) return true;
-        else return false;
+        if (bachelorCredits >= 180) if (masterCredits >= 120)
+            if (!Objects.equals(titleOfBachelorThesis, ConstantValues.NO_TITLE))
+                return !Objects.equals(titleOfMastersThesis, ConstantValues.NO_TITLE);
+        return false;
     }
 
     private int getRandomId(){
