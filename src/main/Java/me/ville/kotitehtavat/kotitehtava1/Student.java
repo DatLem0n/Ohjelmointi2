@@ -5,13 +5,14 @@ import java.util.Objects;
 import java.util.Random ;
 import java.time.Year;
 
-public class Student {
+public class Student extends ConstantValues{
     public static void main(String[] args) {
         //test1();
         //test2();
         //test3();
         test4();
         //ownTest1();
+        //ownTest2();
 
     }
     private static void test1(){
@@ -112,6 +113,12 @@ public class Student {
         System.out.println(a);
 
     }
+    private static void ownTest2(){
+        for (int i = 1; i < 20; i++ ) {
+            Student a = new Student();
+            System.out.println(a);
+        }
+    }
     private String firstName;
     private String lastName;
     private int id;
@@ -125,15 +132,15 @@ public class Student {
     private final int currentYear = Year.now().getValue();
 
     public Student(){
-        firstName = ConstantValues.NO_NAME;
-        lastName = ConstantValues.NO_NAME;
+        firstName = NO_NAME;
+        lastName = NO_NAME;
         id = getRandomId();
-        bachelorCredits = ConstantValues.MIN_CREDIT;
-        masterCredits = ConstantValues.MIN_CREDIT;
-        titleOfMastersThesis = ConstantValues.NO_TITLE;
-        titleOfBachelorThesis = ConstantValues.NO_TITLE;
+        bachelorCredits = MIN_CREDIT;
+        masterCredits = MIN_CREDIT;
+        titleOfMastersThesis = NO_TITLE;
+        titleOfBachelorThesis = NO_TITLE;
         startYear = currentYear;
-        birthDate = ConstantValues.NO_BIRTHDATE;
+        birthDate = NO_BIRTHDATE;
 
     }
 
@@ -141,27 +148,27 @@ public class Student {
         firstName = fname;
         lastName = lname;
         id = getRandomId();
-        bachelorCredits = ConstantValues.MIN_CREDIT;
-        masterCredits = ConstantValues.MIN_CREDIT;
-        titleOfMastersThesis = ConstantValues.NO_TITLE;
-        titleOfBachelorThesis = ConstantValues.NO_TITLE;
+        bachelorCredits = MIN_CREDIT;
+        masterCredits = MIN_CREDIT;
+        titleOfMastersThesis = NO_TITLE;
+        titleOfBachelorThesis = NO_TITLE;
         startYear = currentYear;
-        birthDate = ConstantValues.NO_BIRTHDATE;
+        birthDate = NO_BIRTHDATE;
 
     }
     public boolean hasGraduated(){
         return graduationYear != 0;
     }
     private boolean canGraduate(){
-        if (bachelorCredits >= ConstantValues.BACHELOR_CREDITS) if (masterCredits >= ConstantValues.MASTER_CREDITS)
-            if (!Objects.equals(titleOfBachelorThesis, ConstantValues.NO_TITLE))
-                return !Objects.equals(titleOfMastersThesis, ConstantValues.NO_TITLE);
+        if (bachelorCredits >= BACHELOR_CREDITS) if (masterCredits >= MASTER_CREDITS)
+            if (!Objects.equals(titleOfBachelorThesis, NO_TITLE))
+                return !Objects.equals(titleOfMastersThesis, NO_TITLE);
         return false;
     }
 
     private int getRandomId(){
         Random i = new Random();
-        return (i.nextInt(ConstantValues.MAX_ID) + 1);
+        return (i.nextInt(MAX_ID - MIN_ID + 1) + MIN_ID);
     }
     public int getStudyYears(){
         if (hasGraduated()){
@@ -308,11 +315,11 @@ public class Student {
                     this.birthDate = dateFormatted;
                     return "Ok";
                 }
-                else return ConstantValues.INCORRECT_CHECKMARK;
+                else return INCORRECT_CHECKMARK;
             }
-            else return ConstantValues.INVALID_BIRTHDAY;
+            else return INVALID_BIRTHDAY;
         }
-        else return ConstantValues.INVALID_BIRTHDAY;
+        else return INVALID_BIRTHDAY;
     }
     @Override
     public String toString(){
@@ -333,24 +340,24 @@ public class Student {
         }
 
         // bachelor credit check
-        if (bachelorCredits >= ConstantValues.BACHELOR_CREDITS){
+        if (bachelorCredits >= BACHELOR_CREDITS){
             studentString += String.format("\t BachelorCredits: %.1f ==> All required bachelor credits completed (%.1f/%.1f) \n",
-                    bachelorCredits,bachelorCredits,ConstantValues.BACHELOR_CREDITS);
+                    bachelorCredits,bachelorCredits,BACHELOR_CREDITS);
         }
         else{
             studentString += String.format("\t BachelorCredits: %.1f ==> Missing bachelor credits %.1f (%.1f/%.1f) \n",
-                    bachelorCredits, ConstantValues.BACHELOR_CREDITS - bachelorCredits, bachelorCredits,ConstantValues.BACHELOR_CREDITS);
+                    bachelorCredits, BACHELOR_CREDITS - bachelorCredits, bachelorCredits,BACHELOR_CREDITS);
         }
 
         studentString += String.format("\t TitleOfBachelorThesis: \"%s\" \n", titleOfBachelorThesis);
         // master credit check
-        if (masterCredits >= ConstantValues.MASTER_CREDITS){
+        if (masterCredits >= MASTER_CREDITS){
             studentString += String.format("\t MasterCredits: %.1f ==> All required master's credits completed (%.1f/%.1f) \n",
-                    masterCredits, masterCredits,ConstantValues.MASTER_CREDITS);
+                    masterCredits, masterCredits,MASTER_CREDITS);
         }
         else{
-            studentString += String.format("\t BachelorCredits: %.1f ==> Missing bachelor credits %.1f (%.1f/%.1f) \n",
-                    masterCredits,ConstantValues.MASTER_CREDITS - masterCredits, masterCredits,ConstantValues.MASTER_CREDITS);
+            studentString += String.format("\t MasterCredits: %.1f ==> Missing master's credits %.1f (%.1f/%.1f) \n",
+                    masterCredits,MASTER_CREDITS - masterCredits, masterCredits,MASTER_CREDITS);
         }
 
         studentString += String.format("\t TitleOfMastersThesis: \"%s\" \n", titleOfMastersThesis);
