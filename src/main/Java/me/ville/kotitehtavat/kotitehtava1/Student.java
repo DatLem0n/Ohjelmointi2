@@ -102,6 +102,7 @@ public class Student extends ConstantValues{
         System.out.println(a.setPersonId("11111111-3334"));
         System.out.println(a.setPersonId("121298-830A"));
         System.out.println(a.setPersonId("131052-308T"));
+
     }
     private static void ownTest1(){
         Student a = new Student();
@@ -145,8 +146,8 @@ public class Student extends ConstantValues{
     }
 
     public Student(String lname, String fname){
-        firstName = fname;
-        lastName = lname;
+        if (fname != null) firstName = fname;
+        if (lname != null) lastName = lname;
         id = getRandomId();
         bachelorCredits = MIN_CREDIT;
         masterCredits = MIN_CREDIT;
@@ -172,9 +173,9 @@ public class Student extends ConstantValues{
     }
     public int getStudyYears(){
         if (hasGraduated()){
-            return startYear - graduationYear;
+            return graduationYear - startYear;
         }
-        else return startYear - currentYear;
+        else return currentYear - startYear;
     }
 
     public String getFirstName() {
@@ -244,7 +245,7 @@ public class Student extends ConstantValues{
     }
 
     public void setStartYear(final int startYear) {
-        if ((startYear >= 2000) && !(startYear > currentYear))  this.startYear = startYear;
+        if ((startYear >= 2001) && !(startYear > currentYear))  this.startYear = startYear;
     }
 
     public int getGraduationYear() {
@@ -293,9 +294,9 @@ public class Student extends ConstantValues{
         if (List.of(shortMonths).contains(month)) dayMax = 30;
         if ((month == 2)) {
             if (checkLeapYear(year)) {
-                dayMax = 28;
+                dayMax = 29;
             }
-            else dayMax = 29;
+            else dayMax = 28;
         }
 
         return day >= 1 && day <= dayMax && month >= 1 && month <= 12 && year >= 1;
@@ -309,7 +310,7 @@ public class Student extends ConstantValues{
             if (ID.charAt(6) == 'A') year += 2000;
             if (ID.charAt(6) == '-') year += 1900;
             if (ID.charAt(6) == '+') year += 1800;
-            String dateFormatted = String.format("%d.%d.%d",day,month,year);
+            String dateFormatted = String.format("%02d.%02d.%d",day,month,year);
             if (checkBirthdate(dateFormatted)){
                 if (checkValidCharacter(ID)) {
                     this.birthDate = dateFormatted;
