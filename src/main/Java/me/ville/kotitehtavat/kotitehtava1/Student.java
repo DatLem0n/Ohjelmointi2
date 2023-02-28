@@ -4,15 +4,21 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random ;
 import java.time.Year;
+import java.util.regex.Pattern;
 
-public class Student extends ConstantValues{
+import static main.Java.me.ville.kotitehtavat.kotitehtava1.ConstantValues.*;
+
+public class Student{
     public static void main(String[] args) {
         //test1();
         //test2();
         //test3();
-        test4();
+        //test4();
         //ownTest1();
         //ownTest2();
+
+        Student a = new Student ();
+        a.setPersonId("130828+473A");
 
     }
     private static void test1(){
@@ -147,7 +153,9 @@ public class Student extends ConstantValues{
 
     public Student(String lname, String fname){
         if (fname != null) firstName = fname;
+        else firstName = NO_NAME;
         if (lname != null) lastName = lname;
+        else lastName = NO_NAME;
         id = getRandomId();
         bachelorCredits = MIN_CREDIT;
         masterCredits = MIN_CREDIT;
@@ -265,7 +273,7 @@ public class Student extends ConstantValues{
     }
 
     private boolean checkPersonIDNumber(final String id){
-        return id.length() == 11 && "+-A".indexOf(id.charAt(6)) != -1;
+        return id.length() == 11 && "\\+-A".indexOf(id.charAt(6)) != -1;
     }
     private boolean checkLeapYear(int year){
         return (year % 4 == 0) && (year % 100 != 0) || year % 400 == 0;
@@ -274,7 +282,8 @@ public class Student extends ConstantValues{
         if (Objects.equals(personID, "221199-123A")) return true;
         char[] identifyCode = {'0','1','2','3','4','5','6','7','8','9','A','B',
                                'C','D','E','F','H','J','K','L','M','N','P','R','S','T','U','V','W','X','Y'};
-        String[] splitID = personID.split(String.valueOf(personID.charAt(6)));
+        String splitterChar = Pattern.quote(String.valueOf(personID.charAt(6)));
+        String[] splitID = personID.split(splitterChar);
         String endNumbers = splitID[1].substring(0,3);
         int sumOfNumbers = Integer.parseInt(splitID[0] + endNumbers);
         try {
@@ -332,33 +341,33 @@ public class Student extends ConstantValues{
         if (hasGraduated()){
             studentString += String.format("\t Status: The student has graduated in %d \n", graduationYear);
             studentString += String.format("\t StartYear: %d (studies have lasted for %d years \n",
-                                            startYear, graduationYear - startYear);
+                    startYear, graduationYear - startYear);
         }
         else {
             studentString += ("\t Status: The student has not graduated, yet \n");
             studentString += String.format("\t StartYear: %d (studies have lasted for %d years) \n",
-                                            startYear, currentYear - startYear);
+                    startYear, currentYear - startYear);
         }
 
         // bachelor credit check
         if (bachelorCredits >= BACHELOR_CREDITS){
             studentString += String.format("\t BachelorCredits: %.1f ==> All required bachelor credits completed (%.1f/%.1f) \n",
-                    bachelorCredits,bachelorCredits,BACHELOR_CREDITS);
+                    bachelorCredits,bachelorCredits, BACHELOR_CREDITS);
         }
         else{
             studentString += String.format("\t BachelorCredits: %.1f ==> Missing bachelor credits %.1f (%.1f/%.1f) \n",
-                    bachelorCredits, BACHELOR_CREDITS - bachelorCredits, bachelorCredits,BACHELOR_CREDITS);
+                    bachelorCredits, BACHELOR_CREDITS - bachelorCredits, bachelorCredits, BACHELOR_CREDITS);
         }
 
         studentString += String.format("\t TitleOfBachelorThesis: \"%s\" \n", titleOfBachelorThesis);
         // master credit check
         if (masterCredits >= MASTER_CREDITS){
             studentString += String.format("\t MasterCredits: %.1f ==> All required master's credits completed (%.1f/%.1f) \n",
-                    masterCredits, masterCredits,MASTER_CREDITS);
+                    masterCredits, masterCredits, MASTER_CREDITS);
         }
         else{
             studentString += String.format("\t MasterCredits: %.1f ==> Missing master's credits %.1f (%.1f/%.1f) \n",
-                    masterCredits,MASTER_CREDITS - masterCredits, masterCredits,MASTER_CREDITS);
+                    masterCredits, MASTER_CREDITS - masterCredits, masterCredits, MASTER_CREDITS);
         }
 
         studentString += String.format("\t TitleOfMastersThesis: \"%s\" \n", titleOfMastersThesis);
