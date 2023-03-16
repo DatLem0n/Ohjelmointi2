@@ -83,7 +83,7 @@ public class Course {
     }
     @Override
     public String toString(){
-        String courseString = String.format("[%s%s \t(%f cr), \"%s\"",courseCode,courseBase,credits,name);
+        String courseString = String.format("[%s%s \t(%6f cr), \"%s\"",courseCode,courseBase,credits,name);
         courseString += String.format("%s, period: %d",getCourseTypeString(),period);
 
         return courseString;

@@ -24,16 +24,24 @@ public class StudentCourse {
         return gradeNum;
     }
 
-    public void setGradeNum(int gradeNum) {
-        this.gradeNum = gradeNum;
+    protected void setGrade(int gradeNum) {
+        if(course.isNumericGrade()){
+
+        }
+    }
+    private boolean checkGradeValidity(final int gradeNum){
+
+    }
+    public boolean isPassed(){
+
     }
 
-    public int getYearCompleted() {
+    public int getYear() {
         return yearCompleted;
     }
 
-    public void setYearCompleted(int yearCompleted) {
-        this.yearCompleted = yearCompleted;
+    public void setYear(final int year) {
+        yearCompleted = year;
     }
 
 
