@@ -13,9 +13,21 @@ public class Course {
 
     Course(){}
     Course(String name, final int code, Character courseBase, final int type, final int period, final double credits, boolean numericGrade){
-
+        setName(name);
+        setCourseCode(code,courseBase);
+        setCourseType(type);
+        setPeriod(period);
+        setCredits(credits);
+        setNumericGrade(numericGrade);
     }
     Course(Course course){
+        this.name = course.getName();
+        this.courseCode = course.getCourseCode();
+        this.courseBase = course.getCourseBase();
+        this.courseType = course.getCourseType();
+        this.period = course.getPeriod();
+        this.credits = course.getCredits();
+        this.numericGrade = course.isNumericGrade();
     }
 
     public String getName() {
@@ -40,7 +52,6 @@ public class Course {
     }
 
     public void setCourseCode(final int courseCode, Character courseBase) {
-        Character[] validBase = {'A', 'P', 'S'};
         if ((courseCode > 0 && courseCode < 1000000) && ("APS".indexOf(courseBase) != -1)) {
             this.courseCode = String.valueOf(courseCode);
             this.courseBase = courseBase;
@@ -72,8 +83,8 @@ public class Course {
     }
     @Override
     public String toString(){
-        String courseString = String.format("[%s%s \t(%d cr), \"%s\"",courseCode,courseBase,credits,name);
-        courseString += String.format("%s, period: %i",getCourseTypeString(),period);
+        String courseString = String.format("[%s%s \t(%f cr), \"%s\"",courseCode,courseBase,credits,name);
+        courseString += String.format("%s, period: %d",getCourseTypeString(),period);
 
         return courseString;
     }
