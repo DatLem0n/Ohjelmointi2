@@ -28,4 +28,3 @@ public class ConstantValues {
     public static final char GRADE_FAILED = 'F';
     public static final char GRADE_ACCEPTED = 'A';
 }
-

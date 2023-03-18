@@ -5,8 +5,8 @@ import java.util.Random;
 import static main.Java.me.ville.kotitehtavat.kotitehtava2.ConstantValues.*;
 
 public class Student {
-    private String firstName;
-    private String lastName;
+    private String firstName = NO_NAME;
+    private String lastName = NO_NAME;
     private int id;
     private int startYear;
     private int graduationYear;
