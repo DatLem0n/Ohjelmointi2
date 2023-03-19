@@ -13,14 +13,13 @@ public class Degree {
     }
 
     public void addStudentCourses(StudentCourse[] courses){
-        boolean canAdd = true;
         for (int i = 0; i <= courses.length; i++){
             if (!addStudentCourse(courses[i])) break;
         }
     }
 
     public boolean addStudentCourse(StudentCourse course){
-        if (course != null && count <= MAX_COURSES){
+        if (course != null && count < MAX_COURSES){
             myCourses[count] = course;
             count ++;
             return true;
@@ -89,7 +88,7 @@ public class Degree {
         String degreeString = String.format("Degree [Title: \"%s\" (courses: %d)\n",degreeTitle,count);
        degreeString += String.format("\tThesis title: \"%s\"",titleOfThesis);
 
-       for (int i = 0; i<= count; i++){
+       for (int i = 0; i < count; i++){
            degreeString += String.format("\t%d. %s\n",count + 1, myCourses[i].toString());
        }
        return degreeString;

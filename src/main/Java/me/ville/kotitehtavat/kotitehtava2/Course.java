@@ -45,7 +45,7 @@ public class Course {
         return courseType;
     }
     public void setCourseType(final int type) {
-        if (type == 1 || type == 0) courseType = type;
+        if (type == OPTIONAL || type == MANDATORY) courseType = type;
     }
     public String getCourseCode() {
         return courseCode;
@@ -73,7 +73,7 @@ public class Course {
     }
 
     private void setCredits(final double credits) {
-        if (credits >= MIN_CREDITS && credits <= MAX_CREDITS) this.credits = credits;
+        if (credits >= MIN_CREDITS && credits <= MAX_COURSE_CREDITS) this.credits = credits;
     }
     public boolean isNumericGrade(){
         return numericGrade;

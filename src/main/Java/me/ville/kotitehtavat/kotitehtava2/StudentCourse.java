@@ -1,7 +1,6 @@
 package main.Java.me.ville.kotitehtavat.kotitehtava2;
 
 import java.time.Year;
-
 import static main.Java.me.ville.kotitehtavat.kotitehtava2.ConstantValues.*;
 public class StudentCourse {
 
@@ -13,7 +12,9 @@ public class StudentCourse {
 
     StudentCourse(){}
     StudentCourse(Course course, final int gradeNum, final int yearCompleted){
-
+        this.course = course;
+        setGrade(gradeNum);
+        this.yearCompleted = yearCompleted;
     }
     public Course getCourse() {
         return course;
@@ -34,14 +35,14 @@ public class StudentCourse {
         }
     }
     private boolean checkGradeValidity(final int gradeNum){
-        if(course.isNumericGrade() && (gradeNum >= 0 && gradeNum <= 5)){
+        if(course.isNumericGrade() && (gradeNum >= MIN_GRADE && gradeNum <= MAX_GRADE)){
             return true;
         }
-        else return !course.isNumericGrade() && (gradeNum == 70 || gradeNum == 65);
+        else return !course.isNumericGrade() && (gradeNum == GRADE_FAILED || gradeNum == GRADE_ACCEPTED);
 }
     public boolean isPassed(){
-        if (course.isNumericGrade()) return gradeNum != 0;
-        else return gradeNum == 65;
+        if (course.isNumericGrade()) return gradeNum != MIN_GRADE;
+        else return gradeNum == GRADE_ACCEPTED;
     }
 
     public int getYear() {

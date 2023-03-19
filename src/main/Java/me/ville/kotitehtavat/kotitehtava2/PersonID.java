@@ -13,7 +13,7 @@ public class PersonID {
         return birthDate;
     }
 
-    public String setPersonId(final String ID){
+    public String setPersonID(final String ID){
         if (checkPersonIDNumber(ID)){
             int day = Integer.parseInt(ID.substring(0,2));
             int month = Integer.parseInt(ID.substring(2,4));
