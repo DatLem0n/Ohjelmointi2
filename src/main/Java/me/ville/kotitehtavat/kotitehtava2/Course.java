@@ -35,7 +35,7 @@ public class Course {
     }
 
     public void setName(String name) {
-        if (name != null) this.name = name;
+        if (name != null && !name.equals("")) this.name = name;
     }
     public String getCourseTypeString() {
         if (courseType == 0) return "Optional";
@@ -52,9 +52,10 @@ public class Course {
     }
 
     public void setCourseCode(final int courseCode, Character courseBase) {
-        if ((courseCode > 0 && courseCode < 1000000) && ("APS".indexOf(courseBase) != -1)) {
-            this.courseCode = String.valueOf(courseCode);
-            this.courseBase = courseBase;
+        char upperCourseBase = Character.toUpperCase(courseBase);
+        if ((courseCode > 0 && courseCode < 1000000) && ("APS".indexOf(upperCourseBase) != -1)) {
+            this.courseCode = String.valueOf(courseCode) + courseBase;
+            this.courseBase = upperCourseBase;
         }
     }
     public Character getCourseBase() {
@@ -83,7 +84,7 @@ public class Course {
     }
     @Override
     public String toString(){
-        String courseString = String.format("[%s%s \t(%4f cr), \"%s\"",courseCode,courseBase,credits,name);
+        String courseString = String.format("[%s ( %.2f cr), \"%s\". ",courseCode,credits,name);
         courseString += String.format("%s, period: %d.]",getCourseTypeString(),period);
 
         return courseString;

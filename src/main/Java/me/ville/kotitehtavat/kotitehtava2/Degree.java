@@ -13,8 +13,10 @@ public class Degree {
     }
 
     public void addStudentCourses(StudentCourse[] courses){
-        for (int i = 0; i <= courses.length; i++){
-            if (!addStudentCourse(courses[i])) break;
+        if (courses != null) {
+            for (int i = 0; i < courses.length; i++) {
+                if (!addStudentCourse(courses[i])) break;
+            }
         }
     }
 
@@ -45,7 +47,7 @@ public class Degree {
 
     public double getCreditsByBase(Character base){
         double creditSum = 0;
-        for (int i = 0; i <= count; i++){
+        for (int i = 0; i < count; i++){
             if (isCourseCompleted(myCourses[i]) && myCourses[i].getCourse().getCourseBase() == base){
                 creditSum += myCourses[i].getCourse().getCredits();
             }
@@ -55,7 +57,7 @@ public class Degree {
 
     public double getCreditsByType(final int courseType){
         double creditSum = 0;
-        for (int i = 0; i <= count; i++){
+        for (int i = 0; i < count; i++){
             if (isCourseCompleted(myCourses[i]) && myCourses[i].getCourse().getCourseType() == courseType){
                 creditSum += myCourses[i].getCourse().getCredits();
             }
@@ -65,7 +67,7 @@ public class Degree {
 
     public double getCredits(){
         double creditSum = 0;
-        for (int i = 0; i <= count; i++){
+        for (int i = 0; i < count; i++){
             if (isCourseCompleted(myCourses[i])) creditSum += myCourses[i].getCourse().getCredits();
         }
         return creditSum;
@@ -83,14 +85,14 @@ public class Degree {
         }
     }
 
-   @Override
-   public String toString(){
-        String degreeString = String.format("Degree [Title: \"%s\" (courses: %d)\n",degreeTitle,count);
-       degreeString += String.format("\tThesis title: \"%s\"",titleOfThesis);
+    @Override
+    public String toString(){
+        StringBuilder degreeString = new StringBuilder(String.format("Degree [Title: \"%s\" (courses: %d)\n", degreeTitle, count));
+        degreeString.append(String.format("\tThesis title: \"%s\"\n", titleOfThesis));
 
-       for (int i = 0; i < count; i++){
-           degreeString += String.format("\t%d. %s\n",count + 1, myCourses[i].toString());
-       }
-       return degreeString;
+        for (int i = 0; i < count; i++){
+            degreeString.append(String.format("\t%d. %s\n", i + 1, myCourses[i].toString()));
+        }
+        return degreeString.toString();
     }
 }

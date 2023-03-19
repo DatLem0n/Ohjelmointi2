@@ -1,10 +1,12 @@
 package main.Java.me.ville.kotitehtavat.kotitehtava2;
-
-
 import static main.Java.me.ville.kotitehtavat.kotitehtava2.ConstantValues.*;
 public class Main {
     public static void main(String[] args) {
+        test1();
+        test2();
 
+    }
+    private static void test1(){
         Student a = new Student();
         Course course1 = new Course("Programming 1", 811104, 'P', 1, 1, 5.0, true);
         Course course2 = new Course("All kinds of basic studies", 112233, 'P', 1, 2, 45.0, true);
@@ -52,14 +54,17 @@ public class Main {
         a.printDegrees();
         a.printCourses();
         SC11.setGrade('X');
-        System.out.println(SC11.toString());
+        System.out.println(SC11);
         SC11.setGrade('a');
-        System.out.println(SC11.toString());
+        System.out.println(SC11);
         SC1.setGrade(6);
-        System.out.println(SC1.toString());
+        System.out.println(SC1);
         SC1.setGrade(5);
-        System.out.println(SC1.toString());
-
+        System.out.println(SC1);
+    }
+    private static void test2(){
+        Student a = new Student();
+        a.setStartYear(2008);
 
     }
 }

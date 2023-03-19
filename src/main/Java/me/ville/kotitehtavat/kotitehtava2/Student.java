@@ -68,7 +68,7 @@ public class Student {
     }
 
     public void setStartYear(final int startYear) {
-        if ((startYear > 2000) && !(startYear > currentYear))  this.startYear = startYear;
+        if ((startYear > 2000) && (startYear <= currentYear))  this.startYear = startYear;
     }
 
     public int getGraduationYear() {
@@ -76,15 +76,15 @@ public class Student {
     }
 
     public String setGraduationYear(final int graduationYear) {
-        if (canGraduate()){
+        if (canGraduate()) {
             if ((graduationYear >= startYear) && (graduationYear <= currentYear)){
                 this.graduationYear = graduationYear;
                 return "Ok";
             }
             return "Check graduation year";
-
         }
         return "Check amount of required credits";
+
     }
 
     public void setDegreeTitle(final int i, String dName){
@@ -103,8 +103,8 @@ public class Student {
     public int addCourses(final int i, StudentCourse[] courses){
         int addedCourses = 0;
         if (i >= 0 && i < degreeCount && courses != null){
-            for (int course = 0; course < courses.length; course ++){
-                if (degrees[i].addStudentCourse(courses[course])) addedCourses ++;
+            for (StudentCourse course : courses) {
+                if (degrees[i].addStudentCourse(course)) addedCourses++;
             }
         }
         return addedCourses;
@@ -138,7 +138,7 @@ public class Student {
         if (personID != null){
             PersonID ID = new PersonID();
             String returnString = ID.setPersonID(personID);
-            if (returnString == "Ok"){
+            if (Objects.equals(returnString, "Ok")){
                 birthDate = ID.getBirthDate();
                 return birthDate;
             }
@@ -154,8 +154,8 @@ public class Student {
 
     private boolean canGraduate(){
         if (degrees[BACHELOR_TYPE].getCredits() >= BACHELOR_CREDITS) if (degrees[MASTER_TYPE].getCredits() >= MASTER_CREDITS)
-            if (!Objects.equals(degrees[BACHELOR_TYPE].getDegreeTitle(), NO_TITLE))
-                return !Objects.equals(degrees[MASTER_TYPE].getDegreeTitle(), NO_TITLE);
+            if (!Objects.equals(degrees[BACHELOR_TYPE].getTitleOfThesis(), NO_TITLE))
+                return !Objects.equals(degrees[MASTER_TYPE].getTitleOfThesis(), NO_TITLE);
         return false;
     }
 
@@ -174,7 +174,7 @@ public class Student {
     @Override
     public String toString(){
         String studentString = String.format("Student id: %d \n", id);
-        studentString += String.format("\t FirstName: %s, LastName: %s \n", firstName, lastName);
+        studentString += String.format("\t First name: %s, Last name: %s \n", firstName, lastName);
         studentString += String.format("\t Date of Birth: %s \n", birthDate);
 
         // graduation check
@@ -189,10 +189,10 @@ public class Student {
                     startYear, currentYear - startYear);
         }
 
-        studentString += String.format("Total credits: %.1f\n", degrees[BACHELOR_TYPE].getCredits() + degrees[MASTER_TYPE].getCredits());
+        studentString += String.format("\t Total credits: %.1f\n", degrees[BACHELOR_TYPE].getCredits() + degrees[MASTER_TYPE].getCredits());
 
         // bachelor credit check
-        studentString += String.format("\t\t Bachelor credits: %.1f", degrees[BACHELOR_TYPE].getCredits());
+        studentString += String.format("\t Bachelor credits: %.1f\n", degrees[BACHELOR_TYPE].getCredits());
         if (degrees[BACHELOR_TYPE].getCredits() >= BACHELOR_CREDITS){
             studentString += String.format("\t\t Total bachelor credits completed (%.1f/%.1f) \n",
                     degrees[BACHELOR_TYPE].getCredits(), BACHELOR_CREDITS);
@@ -205,7 +205,7 @@ public class Student {
         studentString += String.format("\t\t Title of BSc Thesis: \"%s\" \n", degrees[BACHELOR_TYPE].getTitleOfThesis());
 
         // master credit check
-        studentString += String.format("Master credits: %.1f\n", degrees[MASTER_TYPE].getCredits());
+        studentString += String.format("\t Master credits: %.1f\n", degrees[MASTER_TYPE].getCredits());
         if (degrees[MASTER_TYPE].getCredits() >= MASTER_CREDITS){
             studentString += String.format("\t\t Total master's credits completed (%.1f/%.1f) \n",
                     degrees[MASTER_TYPE].getCredits(), MASTER_CREDITS);
