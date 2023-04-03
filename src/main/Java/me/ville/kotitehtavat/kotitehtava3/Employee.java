@@ -10,7 +10,7 @@ abstract class Employee extends Person implements Payment{
 
     Employee(String lname, String fname){
         super(lname, fname);
-        empId = "OY_" + super.getRandomId(MIN_EMP_ID, MAX_EMP_ID);
+        empId = getEmployeeIdString() + super.getRandomId(MIN_EMP_ID, MAX_EMP_ID);
     }
     public String getIdString(){
         return empId;
