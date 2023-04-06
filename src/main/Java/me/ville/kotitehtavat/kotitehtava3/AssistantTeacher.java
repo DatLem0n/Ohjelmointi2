@@ -15,7 +15,7 @@ public class AssistantTeacher extends Employee implements Teacher, Payment{
     public String getCourses(){
         StringBuilder courseString = new StringBuilder();
         for (DesignatedCourse course:courses){
-            courseString.append(course.toString());
+            courseString.append("\t").append(course.toString()).append("\n");
         }
         return courseString.toString();
     }
@@ -25,7 +25,13 @@ public class AssistantTeacher extends Employee implements Teacher, Payment{
         }
     }
     public String toString(){
-
+        String tempStr = "";
+        tempStr += String.format("Teacher id: %s \n",super.getIdString());
+        tempStr += String.format("\t First name: %s, Last name: %s \n",super.getFirstName(), super.getLastName());
+        tempStr += String.format("\t Birthdate: %s\n",super.getBirthDate());
+        tempStr += String.format("\t salary: %f\n",this.calculatePayment());
+        tempStr += "\t Assistant for courses: \n";
+        tempStr += getCourses();
+        return tempStr;
     }
-
 }
