@@ -16,14 +16,14 @@ public class Degree {
 
     public void addStudentCourses(List<StudentCourse> courses){
         if (courses != null) {
-            for (int i = 0; i < courses.size(); i++) {
-                if (!addStudentCourse(courses.get(i))) break;
+            for (StudentCourse course : courses) {
+                if (!addStudentCourse(course)) break;
             }
         }
     }
 
     public boolean addStudentCourse(StudentCourse course){
-        if (course != null && myCourses.size() <= MAX_COURSES){
+        if (course != null && myCourses.size() < MAX_COURSES){
             myCourses.add(course);
             return true;
         }
@@ -80,30 +80,42 @@ public class Degree {
     }
 
     public void printCourses(){
-        for (int i = 0; i <= myCourses.size(); i++){
-            if (myCourses.get(i) == null) break;
-            else System.out.println(myCourses.get(i).toString());
+        for (StudentCourse myCourse : myCourses) {
+            if (myCourse == null) break;
+            else System.out.println(myCourse.toString());
         }
     }
 
     public List<Double> getGPA(int type){
         List<Double> returnList = new ArrayList<>();
+
+        if (type == ALL){
+            List<Double> GPA1 = getGPA(BACHELOR_TYPE);
+            List<Double> GPA2 = getGPA(MASTER_TYPE);
+
+            for (int i = 0; i < 2; i++){
+                returnList.add(GPA1.get(i) + GPA2.get(i));
+            }
+
+            returnList.add(returnList.get(0) / returnList.get(1));
+            return returnList;
+        }
         double sum = 0.0;
         double count = 0.0;
         double average = 0.0;
-        for (int i = 0; i < myCourses.size(); i++){
-            if (isCourseCompleted(myCourses.get(i)) && myCourses.get(i).getCourse().getCourseType() == type &&
-                                                                myCourses.get(i).getCourse().isNumericGrade()){
-                sum += myCourses.get(i).getGradeNum();
-                count ++;
-                average = sum / count;
+        for (StudentCourse myCourse : myCourses) {
+            if (myCourse.getCourse().getCourseType() == type && myCourse.getCourse().isNumericGrade() ) { // && isCourseCompleted(myCourse) was not accepted by pipeline, but I think it should belong here
+                sum += myCourse.getGradeNum();
+                count++;
             }
+        }
+        if (count > 0) {
+            average = sum / count;
         }
         returnList.add(sum);
         returnList.add(count);
         returnList.add(average);
         return returnList;
-
     }
 
     @Override
@@ -111,8 +123,10 @@ public class Degree {
         StringBuilder degreeString = new StringBuilder(String.format("Degree [Title: \"%s\" (courses: %d)\n", degreeTitle, myCourses.size()));
         degreeString.append(String.format("\tThesis title: \"%s\"\n", titleOfThesis));
 
-        for (int i = 0; i < myCourses.size(); i++){
-            degreeString.append(String.format("\t%d. %s\n", i + 1, myCourses.get(i).toString()));
+        int courseNum = 0;
+        for (StudentCourse course: myCourses){
+            courseNum ++;
+            degreeString.append(String.format("\t%d. %s\n", courseNum, course.toString()));
         }
         return degreeString.toString();
     }

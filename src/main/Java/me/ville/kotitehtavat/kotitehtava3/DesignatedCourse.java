@@ -32,11 +32,11 @@ public class DesignatedCourse {
         return year;
     }
     public void setYear(int year){
-        if (year <= currentYear && year >= 2000){
+        if (year <= currentYear + 1 && year >= 2000){
             this.year = year;
         }
     }
     public String toString(){
-        return String.format("[course=[%s], year = %s]",course.toString(),year);
+        return String.format("[course=%s, year = %s]",course.toString(),year);
     }
 }

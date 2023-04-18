@@ -1,6 +1,7 @@
 package main.Java.me.ville.kotitehtavat.kotitehtava3;
 
 import java.time.Year;
+
 import static main.Java.me.ville.kotitehtavat.kotitehtava3.ConstantValues.*;
 abstract class Employee extends Person implements Payment{
     private int currentYear = Year.now().getValue();
@@ -24,8 +25,16 @@ abstract class Employee extends Person implements Payment{
     public Payment getPayment(){
         return payment;
     }
+    public void setPayment(Payment payment){
+        if (payment != null){
+            this.payment = payment;
+        }
+    }
     public double calculatePayment(){
-        return 0.0; // plsfixthis wöjöldasäkkkkkkkkkkkkkkkkkkkkk
+        if (payment != null){
+            return payment.calculatePayment();
+        }
+        else return 0.0;
     }
     protected abstract String getEmployeeIdString();
 

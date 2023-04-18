@@ -3,7 +3,6 @@ package main.Java.me.ville.kotitehtavat.kotitehtava3;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
-
 import static main.Java.me.ville.kotitehtavat.kotitehtava3.ConstantValues.*;
 
 public class PersonID {

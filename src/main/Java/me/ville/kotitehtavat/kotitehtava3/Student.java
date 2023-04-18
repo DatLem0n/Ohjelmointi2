@@ -7,16 +7,19 @@ import java.util.Objects;
 
 import static main.Java.me.ville.kotitehtavat.kotitehtava3.ConstantValues.*;
 public class Student extends Person{
-    private int id;
-    private int startYear;
-    private int graduationYear;
-    private int degreeCount = 3;
-    private List<Degree> degrees = new ArrayList<Degree>();
     private int currentYear = Year.now().getValue();
+    private int id;
+    private int startYear = currentYear;
+    private int graduationYear;
+    private final int degreeCount = 3;
+    private List<Degree> degrees = new ArrayList<Degree>();
 
     Student(String lname, String fname) {
         super(lname, fname);
         id = super.getRandomId(MIN_STUDENT_ID, MAX_STUDENT_ID);
+        for (int i = 0; i < degreeCount; i++) {
+            degrees.add(new Degree());
+        }
     }
 
     public int getId() {
@@ -28,6 +31,11 @@ public class Student extends Person{
             this.id = id;
         }
     }
+
+    public int getStartYear() {
+        return startYear;
+    }
+
     public void setStartYear(final int startYear) {
         if ((startYear > 2000) && (startYear <= currentYear))  this.startYear = startYear;
     }
@@ -61,7 +69,7 @@ public class Student extends Person{
         else return false;
     }
 
-    public int addCourses(final int i, StudentCourse[] courses){
+    public int addCourses(final int i, List<StudentCourse> courses){
         int addedCourses = 0;
         if (i >= 0 && i < degreeCount && courses != null){
             for (StudentCourse course : courses) {
@@ -72,9 +80,9 @@ public class Student extends Person{
     }
 
     public void printCourses(){
-        for (int degree = 0; degree < degreeCount; degree ++){
-            if (degrees.get(degree) != null){
-                degrees.get(degree).printCourses();
+        for (Degree degree: degrees){
+            if (degree != null){
+                degree.printCourses();
             }
         }
     }
@@ -108,12 +116,17 @@ public class Student extends Person{
         else return currentYear - startYear;
     }
     private double getGPA(){
-        double GPA = 0;
-        for (Degree degree: degrees){
-            degree.getGPA(ALL);
-            GPA += degree.getGPA(ALL).get(2);
+        double sum = 0;
+        double count = 0;
+        double average = 0;
+        for (int i = 0; i <= MASTER_TYPE; i++) {
+            sum += degrees.get(i).getGPA(ALL).get(0);
+            count += degrees.get(i).getGPA(ALL).get(1);
         }
-        return GPA;
+        if (count > 0){
+            average = sum / count;
+        }
+        return average;
     }
 
     @Override
@@ -125,13 +138,15 @@ public class Student extends Person{
         // graduation check
         if (hasGraduated()){
             studentString += String.format("\t Status: The student has graduated in %d \n", graduationYear);
+            studentString += String.format("\t StartYear: %d (studies lasted for %d years) \n",
+                    startYear, graduationYear - startYear);
         }
         else {
             studentString += ("\t Status: The student has not graduated, yet \n");
+            studentString += String.format("\t StartYear: %d (studies have lasted for %d years) \n",
+                    startYear, currentYear - startYear);
         }
 
-        studentString += String.format("\t StartYear: %d (studies have lasted for %d years) \n",
-                startYear, currentYear - startYear);
 
         studentString += String.format("\t Total credits: %.1f (GPA = %.2f)\n", degrees.get(BACHELOR_TYPE).getCredits() +
                 degrees.get(MASTER_TYPE).getCredits(), getGPA());

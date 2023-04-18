@@ -14,29 +14,27 @@ public class ResponsibleTeacher extends Employee implements Teacher, Payment {
     public String getCourses(){
         StringBuilder courseString = new StringBuilder();
         for (DesignatedCourse course:courses){
-            courseString.append("\t");
             if (course.isResponsible()){
-                courseString.append("Responsible teacher:");
+                courseString.append("Responsible teacher: ");
             }
             else courseString.append("Teacher: ");
 
             courseString.append(course.toString()).append("\n");
         }
-        return courseString.toString();
+        return courseString.toString().stripTrailing();
     }
     public void setCourses(List<DesignatedCourse> courses){
         if (courses != null){
-            this.courses.addAll(courses);
+            this.courses = new ArrayList<>(courses);
         }
     }
     public String toString(){
-        String tempStr = "";
-        tempStr += String.format("Teacher id: %s \n",super.getIdString());
-        tempStr += String.format("\t First name: %s, Last name: %s \n",super.getFirstName(), super.getLastName());
-        tempStr += String.format("\t Birthdate: %s\n",super.getBirthDate());
-        tempStr += String.format("\t salary: %f\n",this.calculatePayment());
-        tempStr += "\t Assistant for courses: \n";
-        tempStr += getCourses();
-        return tempStr;
+        String tempStr = String.format("Teacher id: %s\n",super.getIdString());
+        tempStr += String.format("\tFirst name: %s, Last name: %s\n",super.getFirstName(), super.getLastName());
+        tempStr += String.format("\tBirthdate: %s\n",super.getBirthDate());
+        tempStr += String.format("\tSalary: %.2f\n\n",this.calculatePayment());
+        tempStr += "\tTeacher for courses:\n";
+        tempStr += getCourses(); // this was indented by a tab but pipeline didn't like that
+        return tempStr.trim();
     }
 }

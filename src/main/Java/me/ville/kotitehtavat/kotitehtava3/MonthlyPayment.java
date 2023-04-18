@@ -1,7 +1,7 @@
 package main.Java.me.ville.kotitehtavat.kotitehtava3;
 
 public class MonthlyPayment implements Payment{
-    public double salary;
+    private double salary;
 
     public double getSalary(){
         return salary;
