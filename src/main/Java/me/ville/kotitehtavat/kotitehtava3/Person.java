@@ -2,6 +2,7 @@ package main.Java.me.ville.kotitehtavat.kotitehtava3;
 
 import java.util.Objects;
 import java.util.Random;
+
 import static main.Java.me.ville.kotitehtavat.kotitehtava3.ConstantValues.*;
 abstract class Person {
     private String firstName = NO_NAME;
