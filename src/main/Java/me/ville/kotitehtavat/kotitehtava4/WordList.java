@@ -16,7 +16,7 @@ public class WordList {
 
     public WordList theWordsOfLength(int length){
         // The method returns a new WordList object with only the words whose length corresponds to the value of
-        // the variable given as a parameter
+        // the variable given as a parameter.
         WordList WordList = new WordList();
         return WordList;
     }

@@ -23,7 +23,7 @@ public class Hangman {
     }
 
     public int guessesLeft(){
-        // The method returns the number of remaining guesses. Note, must not be negative.
+        // The method returns the number of remaining guesses. Note, must not be negative
         return 0;
     }
 
