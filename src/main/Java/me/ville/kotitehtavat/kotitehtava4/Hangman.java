@@ -31,12 +31,12 @@ private List<Character> guesses = new ArrayList<>();
         char guess = Character.toLowerCase(c);
         if (!guesses.contains(guess)){
             guesses.add(guess);
-            correctGuesses.add(guess);
-            Collections.sort(correctGuesses);
         }
 
         for (char ch : charsOfWord){
             if (guess == ch){
+                correctGuesses.add(guess);
+                Collections.sort(correctGuesses);
                 return true;
             }
         }

@@ -19,20 +19,15 @@ public class WordList {
         readFile(filename);
     }
     private void readFile(String filename) throws FileNotFoundException{
-        try{
-            File wordFile = new File(filename);
-            Scanner wordScanner = new Scanner(wordFile);
-            while (wordScanner.hasNextLine()){
-                String line = wordScanner.nextLine();
-                if (line.length() > 2) {
-                    wordList.add(line.toLowerCase(finnish));
-                }
+        File wordFile = new File(filename);
+        Scanner wordScanner = new Scanner(wordFile);
+        while (wordScanner.hasNextLine()){
+            String line = wordScanner.nextLine();
+            if (line.length() > 2) {
+                wordList.add(line.toLowerCase(finnish));
             }
+        }
 
-        }
-        catch (FileNotFoundException e){
-            throw e;
-        }
     }
 
     public List<String> giveWords()

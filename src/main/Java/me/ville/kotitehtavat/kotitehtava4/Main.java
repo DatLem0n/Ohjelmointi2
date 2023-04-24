@@ -14,7 +14,7 @@ public class Main {
             Hangman game;
             System.out.println("Welcome to Hangman, the game from everyone's childhood");
             System.out.println("Choose your difficulty: [E]asy (10 guesses) [M]edium (5 guesses) or [H]ard (3 guesses)");
-            Character choice;
+            char choice;
             do {
                 System.out.print("Choose difficulty: ");
                 choice = inputChecker.nextLine().toLowerCase().charAt(0);
