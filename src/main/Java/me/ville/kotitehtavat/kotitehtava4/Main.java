@@ -21,8 +21,6 @@ public class Main {
         catch (FileNotFoundException e) {
             System.out.println("Word file not found");
         }
-
-
     }
 
     private static void menu() throws FileNotFoundException {
