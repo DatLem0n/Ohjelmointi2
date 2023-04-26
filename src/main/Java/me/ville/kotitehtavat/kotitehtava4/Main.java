@@ -8,12 +8,29 @@ public class Main {
     private static String filename = "words.txt";
 
     public static void main(String[] args) {
-
+        int numOfGuesses = 0;
         Scanner inputChecker = new Scanner(System.in);
         try {
             WordList wordList = new WordList(filename);
             Hangman game;
             System.out.println("Welcome to Hangman, the game from everyone's childhood");
+            System.out.println("Choose your difficulty: [E]asy (10 guesses) [M]edium (5 guesses) or [H]ard (3 guesses)");
+            char difficultyChoice;
+            do {
+                System.out.print("Choose difficulty: ");
+                difficultyChoice = inputChecker.nextLine().toLowerCase().charAt(0);
+            }
+            while (difficultyChoice != 'e' && difficultyChoice != 'm' && difficultyChoice != 'h');
+            if (difficultyChoice == 'e'){
+                numOfGuesses = 10;
+            }
+            else if (difficultyChoice == 'm'){
+                numOfGuesses = 5;
+            }
+            else{
+                numOfGuesses = 3;
+            }
+
             System.out.println("Do you want to filter the word list? [y/n]");
             char filterOrNoFilter;
             do {
@@ -32,55 +49,44 @@ public class Main {
                 while (filterChoice != 'l' && filterChoice != 'c');
 
                 if (filterChoice == 'l'){
-
-                        do{
-                            System.out.println("What length of word would you like to guess?");
-                            try {
+                    System.out.println("What length of word would you like to guess?");
+                    while(true){
+                        try {
+                            WordList wordListFiltered;
+                            do {
                                 System.out.print("Input number: ");
                                 int length = Integer.parseInt(inputChecker.nextLine());
-                                wordList = wordList.theWordsOfLength(length);
-                            }
-                            catch (NumberFormatException e){
-                                System.out.println("Please input just numbers");
-                            }
-
-                            if (wordList.giveWords().size() == 0){
-                                System.out.println("There are no words of that length");
-                            }
+                                wordListFiltered = wordList.theWordsOfLength(length);
+                                if (wordListFiltered.giveWords().size() == 0) {
+                                    System.out.println("There are no words of that length");
+                                }
+                            } while (wordListFiltered.giveWords().size() == 0);
+                            game = new Hangman(wordListFiltered, numOfGuesses);
+                            break;
                         }
-                        while(wordList.giveWords().size() == 0);
+                        catch (NumberFormatException e){
+                            System.out.println("Please input just numbers");
+                        }
                     }
-                if (filterChoice == 'c'){
+
+                }
+                else {
                     System.out.println("Please format your character input with '_' character representing any character");
                     System.out.println("Example: _a_e_ (matching words could be camel or panel)");
                     do {
                         System.out.print("Write your filter: ");
                         String charModel = inputChecker.nextLine();
                         wordList = wordList.theWordsWithCharacters(charModel);
-                        if (wordList.giveWords().size() == 0){
+                        game = new Hangman(wordList.theWordsWithCharacters(charModel), numOfGuesses);
+                        if (wordList.giveWords().size() == 0) {
                             System.out.println("There are no words matching your filter");
                         }
                     }
                     while (wordList.giveWords().size() == 0);
                 }
             }
-
-
-            System.out.println("Choose your difficulty: [E]asy (10 guesses) [M]edium (5 guesses) or [H]ard (3 guesses)");
-            char difficultyChoice;
-            do {
-                System.out.print("Choose difficulty: ");
-                difficultyChoice = inputChecker.nextLine().toLowerCase().charAt(0);
-            }
-            while (difficultyChoice != 'e' && difficultyChoice != 'm' && difficultyChoice != 'h');
-            if (difficultyChoice == 'e'){
-                game = new Hangman(wordList, 10);
-            }
-            else if (difficultyChoice == 'm'){
-                game = new Hangman(wordList, 5);
-            }
             else{
-                game = new Hangman(wordList, 3);
+                game = new Hangman(wordList, numOfGuesses);
             }
             while (true) {
                 System.out.printf("""

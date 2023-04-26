@@ -8,8 +8,8 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class WordList {
-    private String filename;
-    private List<String> wordList = new ArrayList<String>();
+    private final String filename;
+    private final List<String> wordList = new ArrayList<String>();
     private final Locale FINNISH = new Locale("fi", "FI");
     private int lengthFilterThreshold = 0;
     private String charFilterModel = "";
@@ -19,14 +19,6 @@ public class WordList {
         }
         this.filename = filename;
         readFile(filename, 0);
-    }
-    WordList(String filename, int filterType) throws FileNotFoundException{
-        // filterType int 1 = length, 2 = Character sort
-        if (!filename.endsWith(".txt")){
-            filename += ".txt";
-        }
-        this.filename = filename;
-        readFile(filename, filterType);
     }
     private void readFile(String filename, int filterType) throws FileNotFoundException{
         // filterType int 1 = length, 2 = Character
@@ -43,20 +35,25 @@ public class WordList {
         Scanner wordScanner = new Scanner(wordFile);
         while (wordScanner.hasNextLine()){
             String line = wordScanner.nextLine();
-            if (lengthFilter && line.length() == lengthFilterThreshold){
-                wordList.add(line.toLowerCase(FINNISH));
-            }
-
-            else if (charFilter && line.length() == charFilterModel.length()) {
-                boolean matchingWord = false;
-                for (int i = 0; i < line.length(); i++) {
-                    matchingWord = line.charAt(i) == charFilterModel.charAt(i) || charFilterModel.charAt(i) == '_';
-                }
-                if (matchingWord) {
+            if (lengthFilter){
+                if(line.length() == lengthFilterThreshold){
                     wordList.add(line.toLowerCase(FINNISH));
                 }
             }
 
+            else if (charFilter) {
+                if(line.length() == charFilterModel.length()){
+                    int nonMatchesInWord = 0;
+                    for (int i = 0; i < line.length(); i++) {
+                        if(line.charAt(i) != charFilterModel.charAt(i) && charFilterModel.charAt(i) != '_'){
+                            nonMatchesInWord ++;
+                        }
+                    }
+                    if (nonMatchesInWord == 0) {
+                        wordList.add(line.toLowerCase(FINNISH));
+                    }
+                }
+            }
             else{
                 if (line.length() > 2) {
                     wordList.add(line.toLowerCase(FINNISH));
@@ -74,14 +71,19 @@ public class WordList {
         // The method returns a new WordList object with only the words whose length corresponds to the value of
         // the variable given as a parameter.
         lengthFilterThreshold = length;
-        return new WordList(filename, 1);
+        wordList.clear();
+        readFile(filename, 1);
+
+        return this;
     }
 
     public WordList theWordsWithCharacters(String someString)throws FileNotFoundException {
         // The method returns a new WordList object with only the words with the letters in the exact positions
         // specified in the given string (and matching the length of that given string).
         charFilterModel = someString;
-        return new WordList(filename, 2);
+        wordList.clear();
+        readFile(filename, 2);
+        return this;
     }
 }
 
