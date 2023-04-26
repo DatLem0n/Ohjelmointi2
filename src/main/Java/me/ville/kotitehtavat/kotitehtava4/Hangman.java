@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Hangman {
 private final String theWord;
-private int guessesLeft = 5;
+private int guessesLeft;
 private final List<Character> charsOfWord = new ArrayList<>();
 private final List<Character> correctGuesses = new ArrayList<>();
 private final List<Character> guesses = new ArrayList<>();

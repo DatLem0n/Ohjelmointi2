@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class WordList {
     private final String filename;
-    private final List<String> wordList = new ArrayList<String>();
+    private final List<String> wordList = new ArrayList<>();
     private final Locale FINNISH = new Locale("fi", "FI");
     private int lengthFilterThreshold = 0;
     private String charFilterModel = "";
