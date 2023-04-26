@@ -17,7 +17,7 @@ public class Main {
             System.out.println("Do you want to filter the word list? [y/n]");
             char filterOrNoFilter;
             do {
-                System.out.print("Choose difficulty: ");
+                System.out.print("Make your choice: ");
                 filterOrNoFilter = inputChecker.nextLine().toLowerCase().charAt(0);
             }
             while (filterOrNoFilter != 'y' && filterOrNoFilter != 'n');
@@ -26,19 +26,42 @@ public class Main {
                 System.out.println("Would you like to filter word list by [L]ength or [C]haracter position?");
                 char filterChoice;
                 do {
-                    System.out.print("Choose difficulty: ");
+                    System.out.print("Make your choice: ");
                     filterChoice = inputChecker.nextLine().toLowerCase().charAt(0);
                 }
                 while (filterChoice != 'l' && filterChoice != 'c');
 
                 if (filterChoice == 'l'){
-                    System.out.println("What length of word would you like to guess?");
-                    System.out.print("Input number: ");
-                    int length = Integer.parseInt(inputChecker.nextLine());
-                    wordList = wordList.theWordsOfLength(length);
-                }
+
+                        do{
+                            System.out.println("What length of word would you like to guess?");
+                            try {
+                                System.out.print("Input number: ");
+                                int length = Integer.parseInt(inputChecker.nextLine());
+                                wordList = wordList.theWordsOfLength(length);
+                            }
+                            catch (NumberFormatException e){
+                                System.out.println("Please input just numbers");
+                            }
+
+                            if (wordList.giveWords().size() == 0){
+                                System.out.println("There are no words of that length");
+                            }
+                        }
+                        while(wordList.giveWords().size() == 0);
+                    }
                 if (filterChoice == 'c'){
-                    // tähän filteri viel
+                    System.out.println("Please format your character input with '_' character representing any character");
+                    System.out.println("Example: _a_e_ (matching words could be camel or panel)");
+                    do {
+                        System.out.print("Write your filter: ");
+                        String charModel = inputChecker.nextLine();
+                        wordList = wordList.theWordsWithCharacters(charModel);
+                        if (wordList.giveWords().size() == 0){
+                            System.out.println("There are no words matching your filter");
+                        }
+                    }
+                    while (wordList.giveWords().size() == 0);
                 }
             }
 
