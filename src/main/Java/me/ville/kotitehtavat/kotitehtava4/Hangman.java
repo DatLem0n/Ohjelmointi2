@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class Hangman {
-private String theWord;
+private final String theWord;
 private int guessesLeft = 5;
-private List<Character> charsOfWord = new ArrayList<>();
-private List<Character> correctGuesses = new ArrayList<>();
-private List<Character> guesses = new ArrayList<>();
+private final List<Character> charsOfWord = new ArrayList<>();
+private final List<Character> correctGuesses = new ArrayList<>();
+private final List<Character> guesses = new ArrayList<>();
 
 
     public Hangman(WordList wordList, int numberOfGuesses){

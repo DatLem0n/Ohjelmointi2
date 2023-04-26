@@ -52,16 +52,14 @@ public class Main {
                     System.out.println("What length of word would you like to guess?");
                     while(true){
                         try {
-                            WordList wordListFiltered;
                             do {
                                 System.out.print("Input number: ");
                                 int length = Integer.parseInt(inputChecker.nextLine());
-                                wordListFiltered = wordList.theWordsOfLength(length);
-                                if (wordListFiltered.giveWords().size() == 0) {
+                                wordList = wordList.theWordsOfLength(length);
+                                if (wordList.giveWords().size() == 0) {
                                     System.out.println("There are no words of that length");
                                 }
-                            } while (wordListFiltered.giveWords().size() == 0);
-                            game = new Hangman(wordListFiltered, numOfGuesses);
+                            } while (wordList.giveWords().size() == 0);
                             break;
                         }
                         catch (NumberFormatException e){
@@ -77,7 +75,6 @@ public class Main {
                         System.out.print("Write your filter: ");
                         String charModel = inputChecker.nextLine();
                         wordList = wordList.theWordsWithCharacters(charModel);
-                        game = new Hangman(wordList.theWordsWithCharacters(charModel), numOfGuesses);
                         if (wordList.giveWords().size() == 0) {
                             System.out.println("There are no words matching your filter");
                         }
@@ -85,9 +82,8 @@ public class Main {
                     while (wordList.giveWords().size() == 0);
                 }
             }
-            else{
-                game = new Hangman(wordList, numOfGuesses);
-            }
+
+            game = new Hangman(wordList, numOfGuesses);
             while (true) {
                 System.out.printf("""
                         The hidden word...
@@ -102,11 +98,13 @@ public class Main {
                 if (game.guessesLeft() == 0) {
                     System.out.println("Sorry, you lost!");
                     System.out.printf("The hidden word was: \"%s\"\n", game.word());
+                    inputChecker.nextLine();
                     break;
                 }
                 if (game.theEnd()) {
                     System.out.println("Congratulations! You won!!!");
                     System.out.printf("The hidden word was: \"%s\"\n", game.word());
+                    inputChecker.nextLine();
                     break;
 
                 }
