@@ -14,9 +14,6 @@ public class WordList {
     private int lengthFilterThreshold = 0;
     private String charFilterModel = "";
     WordList(String filename) throws FileNotFoundException{
-        if (!filename.endsWith(".txt")){
-            filename += ".txt";
-        }
         this.filename = filename;
         readFile(filename, 0);
     }
