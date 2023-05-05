@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class Hangman {
-private final String theWord;
-private int guessesLeft;
-private final List<Character> charsOfWord = new ArrayList<>();
-private final List<Character> correctGuesses = new ArrayList<>();
-private final List<Character> guesses = new ArrayList<>();
+    private final String theWord;
+    private int guessesLeft;
+    private final List<Character> charsOfWord = new ArrayList<>();
+    private final List<Character> correctGuesses = new ArrayList<>();
+    private final List<Character> guesses = new ArrayList<>();
 
 
     public Hangman(WordList wordList, int numberOfGuesses){
@@ -35,8 +35,10 @@ private final List<Character> guesses = new ArrayList<>();
 
         for (char ch : charsOfWord){
             if (guess == ch){
-                correctGuesses.add(guess);
-                Collections.sort(correctGuesses);
+                if (!correctGuesses.contains(guess)){
+                    correctGuesses.add(guess);
+                    Collections.sort(correctGuesses);
+                }
                 return true;
             }
         }
@@ -77,8 +79,10 @@ private final List<Character> guesses = new ArrayList<>();
     public boolean theEnd() {
         //The method indicates whether the game is over or not. The game ends if all the letters in the word are
         //guessed correctly
-
-        return correctGuesses.equals(charsOfWord);
+        if (guessesLeft <= 0){
+            return true;
+        }
+        else return correctGuesses.equals(charsOfWord);
     }
 
 }

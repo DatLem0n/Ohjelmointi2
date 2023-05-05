@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Main {
     private static final String filename = "words.txt";
     private static final Scanner inputChecker = new Scanner(System.in);
-    private static int numOfGuesses = 0;
+    private static int numOfGuesses = 10;
     private static WordList wordList;
 
     public static void main(String[] args) {
@@ -103,8 +103,9 @@ public class Main {
                     %s
                                             
                     Guesses left: %d
-                    Guessed letters:""", game.hiddenWord(), game.guessesLeft());
-            System.out.println(game.guesses());
+                    Guessed letters: %s
+                    
+                    """, game.hiddenWord(), game.guessesLeft(), game.guesses());
             game.guess(askForChar());
             System.out.println();
             if (game.guessesLeft() == 0) {
@@ -125,7 +126,7 @@ public class Main {
                 break;
 
             }
-            if (game.theEnd()) {
+            if (game.theEnd() && game.guessesLeft() != 0) {
                 System.out.println("Congratulations! You won!!!");
                 System.out.printf("The hidden word was: \"%s\"\n", game.word());
                 System.out.println();
